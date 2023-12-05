@@ -6,6 +6,8 @@ import Navigator from '../../components/Navigator';
 import { adminMenu } from './menuApp';
 import { LANGUAGES } from '../../utils';
 import './Header.scss';
+import { FormattedMessage } from 'react-intl';
+
 // import { changeLanguageApp } from "../../store/actions"
 
 class Header extends Component {
@@ -15,8 +17,8 @@ class Header extends Component {
     }
 
     render() {
-        const { processLogout } = this.props;
-
+        const { processLogout, language, userInfo } = this.props;
+        console.log(userInfo)
         return (
             <div className="header-container">
                 {/* thanh navigator */}
@@ -25,20 +27,21 @@ class Header extends Component {
                 </div>
 
                 <div className='languages'>
+                    <span className='welcome'><FormattedMessage id={"homeheader.welcome"} /> {userInfo && userInfo.lastName ? userInfo.lastName : ""}!</span>
                     <span
-                        className={this.props.language === "vi" ? 'language-vi active' : 'language-vi'}
+                        className={language === "vi" ? 'language-vi active' : 'language-vi'}
                         onClick={() => this.handleChangeLanguage(LANGUAGES.VI)}
                     >
                         VN
                     </span>
 
                     <span
-                        className={this.props.language === "en" ? 'language-en active' : 'language-en'}
+                        className={language === "en" ? 'language-en active' : 'language-en'}
                         onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}
                     >
                         EN
                     </span>
-                    
+
                     {/* nút logout */}
                     <div className="btn btn-logout" onClick={processLogout} title='Log out'>
                         <i className="fas fa-sign-out-alt"></i>
@@ -54,7 +57,8 @@ class Header extends Component {
 const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
-        language: state.app.language
+        userInfo: state.user.userInfo,
+        language: state.app.language,
     };
 };
 

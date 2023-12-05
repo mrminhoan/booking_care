@@ -1,0 +1,6 @@
+/BackEnd/node_modules
+/BackEnd/.env
+
+/FrontEnd/node_modules
+/FrontEnd/.env
+/FrontEnd/.env.example

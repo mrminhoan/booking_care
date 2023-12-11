@@ -48,12 +48,17 @@
         "position": "Chức danh",
         "role": "Vai trò",
         "save": "Lưu user",
+        "edit": "Lưu thay đổi",
+        "cancel-edit": "Hủy thay đổi",
         "image": "Ảnh đại diện"
     },
     "notification": {
+        "require-field-empty": "Các trường bắt buộc không được để trống",
         "create-user-success": "Thêm người dùng thành công",
         "create-user-failed": "Thêm người dùng thất bại",
         "delete-user-success": "Xóa người dùng thành công",
-        "delete-user-failed": "xóa người dùng thất bại"
+        "delete-user-failed": "xóa người dùng thất bại",
+        "edit-user-success": "Sửa người dùng thành công",
+        "edit-user-failed": "Sửa người dùng thất bại"
     }
 }

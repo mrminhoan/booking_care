@@ -25,13 +25,13 @@
     background-color: #04aa6d;
     color: white;
 }
-
 .btn-edit {
     width: 50px;
     border: none;
-    outline: none;
-    background: transparent;
+    outline: none !important;
     color: orange;
+    background: transparent;
+
     &:hover {
         background-color: transparent !important;
         color: orange !important;
@@ -42,11 +42,23 @@
     width: 50px;
     border: none;
     outline: none;
-    background: transparent;
     color: rgb(235, 15, 15);
+    background: transparent;
+
     &:hover {
         background-color: transparent !important;
         color: rgb(235, 15, 15) !important;
+    }
+}
+.btn-disable {
+    width: 50px;
+    border: none;
+    outline: none;
+    color: rgb(116, 112, 112) !important;
+    background: transparent !important;
+    &:hover {
+        // background-color: transparent !important;
+        color: rgb(116, 112, 112) !important;
     }
 }
 

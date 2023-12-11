@@ -1,5 +1,5 @@
 import actionTypes from "./actionTypes";
-import { getAllCodeService, createNewUserService, getAllUsers, deleteUserService } from "../../services/userService";
+import { getAllCodeService, createNewUserService, getAllUsers, deleteUserService, editUserService } from "../../services/userService";
 import { toast } from "react-toastify";
 import { FormattedMessage } from 'react-intl';
 
@@ -152,11 +152,11 @@ export const deleteUser = (userId) => {
                 dispatch(deleteUserSuccess(res));
                 dispatch(fetchAllUserStart());
             } else {
-                toast.success(<FormattedMessage id={"notification.delete-user-failed"} />);
+                toast.error(<FormattedMessage id={"notification.delete-user-failed"} />);
                 dispatch(saveUserFailed());
             }
         } catch (error) {
-            toast.success(<FormattedMessage id={"notification.delete-user-failed"} />);
+            toast.error(<FormattedMessage id={"notification.delete-user-failed"} />);
             dispatch(deleteUserFailed());
             console.log("CreateNewUser", error)
         }
@@ -171,3 +171,31 @@ export const deleteUserFailed = () => ({
     type: actionTypes.DELETE_USER_FAILED
 })
 
+export const editUser = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            // dispatch({ type: actionTypes.FETCH_GENDER_START })
+            let res = await editUserService(data);
+            if (res && res.errCode === 0) {
+                toast.success(<FormattedMessage id={"notification.edit-user-success"} />);
+                dispatch(editUserSuccess(res));
+                dispatch(fetchAllUserStart());
+            } else {
+                toast.error(<FormattedMessage id={"notification.edit-user-failed"} />);
+                dispatch(editUserFailed());
+            }
+        } catch (error) {
+            dispatch(editUserFailed());
+            toast.error(<FormattedMessage id={"notification.edit-user-failed"} />);
+            console.log("Edit User", error)
+        }
+    }
+}
+
+export const editUserSuccess = () => ({
+    type: actionTypes.EDIT_USER_SUCCESS
+})
+
+export const editUserFailed = () => ({
+    type: actionTypes.EDIT_USER_FAILED
+})

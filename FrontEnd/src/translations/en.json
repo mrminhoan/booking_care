@@ -48,12 +48,18 @@
         "position": "Position",
         "role": "Role",
         "save": "Save User",
+        "edit": "Save changes",
+        "cancel-edit": "Cancel edit",
+        "delete": "Delete",
         "image": "Avatar"
     },
     "notification": {
+        "require-field-empty": "Required field is empty",
         "create-user-success": "Create new user successfully",
         "create-user-failed": "Create new user failed",
         "delete-user-success": "Delete new user successfully",
-        "delete-user-failed": "Delete new user failed"
+        "delete-user-failed": "Delete new user failed",
+        "delete-user-success": "Edit use successfully",
+        "delete-user-failed": "Edit use failed"
     }
 }

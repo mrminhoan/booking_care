@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import './TableManageUser.scss';
 import * as actions from "../../../store/actions";
+import { CRUD_ACTION } from '../../../utils';
 class TableManageUser extends Component {
 
     /** Life Cycle
@@ -33,6 +34,10 @@ class TableManageUser extends Component {
     handle_delete = (userId) => {
         this.props.deleteUser(userId);
     }
+    handle_edit_user = (user) => {
+        this.props.handleEditUserFromParent(user)
+        console.log({ user })
+    }
 
     render() {
         let arrUsers = this.state.userRedux;
@@ -41,7 +46,7 @@ class TableManageUser extends Component {
                 <tbody>
                     <tr>
                         <th>Email</th>
-                        <th>Firt name</th>
+                        <th>First name</th>
                         <th>Last name</th>
                         <th>Address</th>
                         <th>Action</th>
@@ -57,8 +62,19 @@ class TableManageUser extends Component {
                                     <td>{user.lastName}</td>
                                     <td>{user.address}</td>
                                     <td>
-                                        <button className='btn-edit'><i className="fas fa-pencil-alt"></i></button>
-                                        <button onClick={() => this.handle_delete(user.id)} className='btn-delete'><i className="fas fa-trash"></i></button>
+                                        <button
+                                            className='btn btn-edit'
+                                            onClick={() => this.handle_edit_user(user)}
+                                        >
+                                            <i className="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button
+                                            onClick={() => this.handle_delete(user.id)}
+                                            className={this.props.action === CRUD_ACTION.EDIT ? 'btn btn-disable' : 'btn btn-delete'}
+                                            disabled={this.props.action === CRUD_ACTION.EDIT ? true : false}
+                                        >
+                                            <i className="fas fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             )

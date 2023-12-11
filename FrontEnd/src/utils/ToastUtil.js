@@ -10,7 +10,6 @@ const TYPE_WARN = 'WARN';
 const TYPE_ERROR = 'ERROR';
 
 class ToastUtil {
-
     static success(title, message) {
         this.show(TYPE_SUCCESS, title, message);
     }
@@ -24,6 +23,7 @@ class ToastUtil {
     }
 
     static error(title, message) {
+        console.log({ title, message })
         this.show(TYPE_ERROR, title, message);
     }
 

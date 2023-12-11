@@ -49,5 +49,11 @@
         "role": "Vai trò",
         "save": "Lưu user",
         "image": "Ảnh đại diện"
+    },
+    "notification": {
+        "create-user-success": "Thêm người dùng thành công",
+        "create-user-failed": "Thêm người dùng thất bại",
+        "delete-user-success": "Xóa người dùng thành công",
+        "delete-user-failed": "xóa người dùng thất bại"
     }
 }

@@ -61,5 +61,9 @@
         "delete-user-failed": "Delete new user failed",
         "delete-user-success": "Edit use successfully",
         "delete-user-failed": "Edit use failed"
+    },
+    "homepage": {
+        "out-standing-doctor": "Out standing doctor",
+        "more-infor": "More information"
     }
 }

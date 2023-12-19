@@ -60,5 +60,9 @@
         "delete-user-failed": "xóa người dùng thất bại",
         "edit-user-success": "Sửa người dùng thành công",
         "edit-user-failed": "Sửa người dùng thất bại"
+    },
+    "homepage": {
+        "out-standing-doctor": "Bác sĩ nổi bật tuần qua",
+        "more-infor": "Xem thêm"
     }
 }

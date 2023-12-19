@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Lightbox from 'react-image-lightbox';
 import { toast } from "react-toastify";
 import { LANGUAGES, CRUD_ACTION, CommonUtils } from '../../../utils';
-import * as actions from "../../../store/actions"
+import * as actions from "../../../store/actions";
 import './userRedux.scss';
 import 'react-image-lightbox/style.css'; // This only needs to be imported once in your app
 import TableManageUser from './TableManageUser';
@@ -50,21 +50,21 @@ class UserRedux extends Component {
             let arrGenders = this.props.genderRedux;
             this.setState({
                 genderArr: this.props.genderRedux,
-                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].key : ''
+                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : ''
             })
         }
         if (prevProps.roleRedux !== this.props.roleRedux) {
             let arrRoles = this.props.roleRedux;
             this.setState({
                 roleArr: this.props.roleRedux,
-                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : ''
+                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : ''
             })
         }
         if (prevProps.positionRedux !== this.props.positionRedux) {
             let arrPositions = this.props.positionRedux;
             this.setState({
                 positionArr: this.props.positionRedux,
-                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].key : ''
+                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : ''
             })
         }
 
@@ -79,9 +79,9 @@ class UserRedux extends Component {
                 lastName: '',
                 phoneNumber: '',
                 address: '',
-                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].key : '',
-                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].key : '',
-                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : '',
+                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : '',
+                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : '',
+                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : '',
                 avatar: '',
                 previewImgUrl: '',
                 action: CRUD_ACTION.CREATE,
@@ -129,7 +129,6 @@ class UserRedux extends Component {
                         break;
                     }
                 } else {
-                    console.log(arrCheck[i])
                     isValid = false;
                     toast.error(<FormattedMessage id={"notification.require-field-empty"} />);
                     break;
@@ -202,9 +201,9 @@ class UserRedux extends Component {
             lastName: '',
             phoneNumber: '',
             address: '',
-            gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].key : '',
-            position: arrPositions && arrPositions.length > 0 ? arrPositions[0].key : '',
-            role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : '',
+            gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : '',
+            position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : '',
+            role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : '',
             avatar: '',
             action: CRUD_ACTION.CREATE,
         })
@@ -305,7 +304,7 @@ class UserRedux extends Component {
                                             genders && genders.length > 0 &&
                                             genders.map((gender, index) => {
                                                 return (
-                                                    <option key={index} value={gender.key}>
+                                                    <option key={index} value={gender.keyMap}>
                                                         {language === LANGUAGES.VI ? gender.valueVi : gender.valueEn}
                                                     </option>
                                                 )
@@ -337,7 +336,7 @@ class UserRedux extends Component {
                                             positions && positions.length > 0 &&
                                             positions.map((position, index) => {
                                                 return (
-                                                    <option key={index} value={position.id}>
+                                                    <option key={index} value={position.keyMap}>
                                                         {language === LANGUAGES.VI ? position.valueVi : position.valueEn}
                                                     </option>
                                                 )
@@ -368,7 +367,7 @@ class UserRedux extends Component {
                                             roles && roles.length > 0 &&
                                             roles.map((role, index) => {
                                                 return (
-                                                    <option key={index} value={role.id}>
+                                                    <option key={index} value={role.keyMap}>
                                                         {language === LANGUAGES.VI ? role.valueVi : role.valueEn}
                                                     </option>
                                                 )

@@ -1,5 +1,12 @@
 import actionTypes from "./actionTypes";
-import { getAllCodeService, createNewUserService, getAllUsers, deleteUserService, editUserService } from "../../services/userService";
+import {
+    getAllCodeService,
+    createNewUserService,
+    getAllUsers,
+    deleteUserService,
+    editUserService,
+    getTopDoctorHomeService
+} from "../../services/userService";
 import { toast } from "react-toastify";
 import { FormattedMessage } from 'react-intl';
 
@@ -198,4 +205,31 @@ export const editUserSuccess = () => ({
 
 export const editUserFailed = () => ({
     type: actionTypes.EDIT_USER_FAILED
+})
+
+export const fetchTopDoctor = (limit = 10) => {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: actionTypes.FETCH_TOP_DOCTOR_START });
+            let res = await getTopDoctorHomeService(limit);
+            if (res && res.errCode === 0) {
+                dispatch(fetchTopDoctorSuccess(res.data));
+            } else {
+                dispatch(fetchTopDoctorFailed());
+            }
+        } catch (error) {
+            console.log("Fetch Top Doctor Error: ", error)
+            dispatch(fetchTopDoctorFailed());
+        }
+    }
+
+}
+
+export const fetchTopDoctorSuccess = (data) => ({
+    type: actionTypes.FETCH_TOP_DOCTOR_SUCCESS,
+    data: data
+})
+
+export const fetchTopDoctorFailed = () => ({
+    type: actionTypes.FETCH_TOP_DOCTOR_FAILED
 })

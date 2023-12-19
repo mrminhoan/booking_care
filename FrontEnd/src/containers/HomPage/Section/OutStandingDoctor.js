@@ -2,87 +2,73 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Slider from "react-slick";
+import * as actions from "../../../store/actions";
+import { LANGUAGES } from '../../../utils';
+import { FormattedMessage } from 'react-intl';
 
 class OutStandingDoctor extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            arrDoctors: []
+        }
+    }
 
+    componentDidMount() {
+        let limit = 10;
+        this.props.loadTopDoctors(limit);
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.topDoctorRedux !== this.props.topDoctorRedux) {
+            this.setState({
+                arrDoctors: this.props.topDoctorRedux
+            })
+        }
+    }
     render() {
+        let arrDoctors = this.state.arrDoctors;
+        let { language } = this.props;
+        // arrDoctors = arrDoctors.concat(arrDoctors).concat(arrDoctors);
         return (
             <div className=' section-share section-outstanding-doctor'>
                 <div className='section-container'>
                     <div className='section-header'>
-                        <span className='title-section'>Bác sĩ nổi bật tuần qua</span>
-                        <button className='btn-section'>Xem thêm</button>
+                        <span className='title-section'><FormattedMessage id={"homepage.out-standing-doctor"} /></span>
+                        <button className='btn-section'><FormattedMessage id={"homepage.more-infor"} /></button>
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>
-                            <div className='section-customize'>
-                                <div className='customize-border'>
-                                    <div className='outer-bg'>
-                                        <div className='bg-img section-outstanding-doctor' />
-                                    </div>
-                                    <div className='position text-center'>
-                                        <div>Giáo sư, Tiến sĩ A</div>
-                                        <div>Cơ xương khớp 1 </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='section-customize'>
-                                <div className='customize-border'>
-                                    <div className='outer-bg'>
-                                        <div className='bg-img section-outstanding-doctor' />
-                                    </div>
-                                    <div className='position text-center'>
-                                        <div>Giáo sư, Tiến sĩ A</div>
-                                        <div>Cơ xương khớp 2</div>
-                                    </div>
-                                </div>
 
-                            </div>
-                            <div className='section-customize'>
-                                <div className='customize-border'>
-                                    <div className='outer-bg'>
-                                        <div className='bg-img section-outstanding-doctor' />
-                                    </div>
-                                    <div className='position text-center'>
-                                        <div>Giáo sư, Tiến sĩ A</div>
-                                        <div>Cơ xương khớp 3</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='section-customize'>
-                                <div className='customize-border'>
-                                    <div className='outer-bg'>
-                                        <div className='bg-img section-outstanding-doctor' />
-                                    </div>
-                                    <div className='position text-center'>
-                                        <div>Giáo sư, Tiến sĩ A</div>
-                                        <div>Cơ xương khớp 4</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='section-customize'>
-                                <div className='customize-border'>
-                                    <div className='outer-bg'>
-                                        <div className='bg-img section-outstanding-doctor' />
-                                    </div>
-                                    <div className='position text-center'>
-                                        <div>Giáo sư, Tiến sĩ A</div>
-                                        <div>Cơ xương khớp 5</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='section-customize'>
-                                <div className='customize-border'>
+                            {
+                                arrDoctors && arrDoctors.length > 0 &&
+                                arrDoctors.map((doctor, index) => {
+                                    let imageBase64;
+                                    if (doctor.image) {
+                                        imageBase64 = new Buffer(doctor.image, 'base64').toString('binary');
+                                    }
+                                    let nameVi = `${doctor.positionData.valueVi}, ${doctor.firstName} ${doctor.lastName}`;
+                                    let nameEn = `${doctor.positionData.valueEn}, ${doctor.firstName} ${doctor.lastName}`;
 
-                                    <div className='outer-bg'>
-                                        <div className='bg-img section-outstanding-doctor' />
-                                    </div>
-                                    <div className='position text-center'>
-                                        <div>Giáo sư, Tiến sĩ A</div>
-                                        <div>Cơ xương khớp 6</div>
-                                    </div>
-                                </div>
-                            </div>
+                                    return (
+                                        <div className='section-customize' key={index}>
+                                            <div className='customize-border'>
+                                                <div className='outer-bg'>
+                                                    <div
+                                                        className='bg-img section-outstanding-doctor'
+                                                        style={{ backgroundImage: `url(${imageBase64})` }}
+                                                    />
+                                                </div>
+                                                <div className='position text-center'>
+                                                    <div>{language === LANGUAGES.VI ? nameVi : nameEn}</div>
+                                                    <div>Cơ xương khớp 1 </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    )
+                                })
+                            }
+
                         </Slider>
                     </div>
                 </div>
@@ -94,12 +80,15 @@ class OutStandingDoctor extends Component {
 
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        topDoctorRedux: state.admin.top_doctors,
+        language: state.app.language,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        loadTopDoctors: (limit) => dispatch(actions.fetchTopDoctor(limit)),
     };
 };
 

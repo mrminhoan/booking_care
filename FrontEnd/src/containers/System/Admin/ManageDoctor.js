@@ -27,20 +27,22 @@ class ManageDoctor extends Component {
             contentMarkdown: '',
             contentHTML: '',
             doctorSelected: '',
-            doctorOptions: [
-                { value: 'chocolate', label: 'Chocolate' },
-                { value: 'strawberry', label: 'Strawberry' },
-                { value: 'vanilla', label: 'Vanilla' },
-            ],
-            description: ''
-
+            doctorOptions: [],
+            description: '',
         }
     }
 
     componentDidMount() {
+        this.props.fetchAllDoctors()
     }
 
-    componentDidUpdate(prevProps, preState) { }
+    componentDidUpdate(prevProps, preState) {
+        if (prevProps.allDoctors !== this.props.allDoctors) {
+            this.setState({
+                doctorOptions: this.props.allDoctors
+            })
+        }
+    }
 
 
     handleEditorChange = ({ html, text }) => {
@@ -51,9 +53,8 @@ class ManageDoctor extends Component {
     }
 
     handleChangeSelectDoctor = (e) => {
-        let value = e.value;
         this.setState({
-            doctorSelected: value
+            doctorSelected: e
         })
     }
     handleOnChangeDescription = (e) => {
@@ -64,9 +65,17 @@ class ManageDoctor extends Component {
 
     handleSaveContentMarkdown = () => {
         console.log(this.state)
+        let data = {
+            contentHTML: this.state.contentHTML,
+            contentMarkdown: this.state.contentMarkdown,
+            doctorId: this.state.doctorSelected.value,
+            description: this.state.description
+        }
+
+        this.props.saveDoctorInfor(data);
     }
     render() {
-        let arrUsers = this.state.userRedux;
+        let doctorOptions = this.state.doctorOptions;
         return (
             <div className='manage-doctor-container'>
                 <div className='manage-doctor-title'>Manage Doctor</div>
@@ -77,7 +86,12 @@ class ManageDoctor extends Component {
                         <Select
                             value={this.state.doctorSelected}
                             onChange={(e) => this.handleChangeSelectDoctor(e)}
-                            options={this.state.doctorOptions}
+                            options={doctorOptions && doctorOptions.map(doctor => {
+                                return {
+                                    value: doctor.id,
+                                    label: `${doctor.firstName} ${doctor.lastName}`
+                                }
+                            })}
                         />
                     </div>
                     <div className="content-right">
@@ -110,14 +124,15 @@ class ManageDoctor extends Component {
 
 const mapStateToProps = state => {
     return {
-        listUsers: state.admin.users
+        allDoctors: state.admin.all_doctors,
+        language: state.app.language,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchUserRedux: () => dispatch(actions.fetchAllUserStart()),
-        deleteUser: (userId) => dispatch(actions.deleteUser(userId))
+        fetchAllDoctors: () => dispatch(actions.fetchAllDoctor()),
+        saveDoctorInfor: (data) => dispatch(actions.saveDetailDoctor(data))
     };
 };
 

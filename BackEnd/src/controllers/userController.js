@@ -80,11 +80,12 @@ let getAllCode = async (req, res) => {
 }
 
 
+
 module.exports = {
     handleLogin: handleLogin,
     handleGetAllUser: handleGetAllUser,
     handleCreateNewUser: handleCreateNewUser,
     handleEditUser: handleEditUser,
     handleDeleteUser: handleDeleteUser,
-    getAllCode: getAllCode
+    getAllCode: getAllCode,
 }

@@ -131,6 +131,7 @@
     }
     .section-customize {
         // padding: 5px;
+        cursor: pointer;
         .customize-border {
             padding: 20px 0;
             border: 1px solid orange;
@@ -163,7 +164,7 @@
             p {
                 text-align: justify;
                 font-style: italic;
-                padding-top: 1rem ;
+                padding-top: 1rem;
             }
         }
     }

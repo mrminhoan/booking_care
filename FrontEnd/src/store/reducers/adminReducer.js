@@ -6,11 +6,14 @@ const initialState = {
     positions: [],
     users: [],
     top_doctors: [],
+    all_doctors: [],
     isLoadingGender: false,
     isLoadingRole: false,
     isLoadingPosition: false,
     isLoadingUser: false,
     isLoadingTopDoctor: false,
+    isLoaddingAllDoctor: false,
+    isLoadingSaveDetailDoctor: false
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -132,6 +135,58 @@ const adminReducer = (state = initialState, action) => {
         case actionTypes.FETCH_TOP_DOCTOR_FAILED: {
             let newState = { ...state };
             newState.isLoadingTopDoctor = false;
+            return {
+                ...newState
+            }
+        };
+
+
+
+        case actionTypes.FETCH_ALL_DOCTOR_START: {
+            let newState = { ...state };
+            newState.isLoaddingAllDoctor = true;
+            return {
+                ...newState
+            }
+        }
+
+        case actionTypes.FETCH_ALL_DOCTOR_SUCCESS: {
+            let newState = { ...state };
+            newState.all_doctors = action.data;
+            newState.isLoaddingAllDoctor = false;
+            return {
+                ...newState
+            }
+        };
+
+        case actionTypes.FETCH_ALL_DOCTOR_FAILED: {
+            let newState = { ...state };
+            newState.isLoaddingAllDoctor = false;
+            return {
+                ...newState
+            }
+        };
+
+
+        case actionTypes.SAVE_DETAIL_DOCTOR_START: {
+            let newState = { ...state };
+            newState.isLoadingSaveDetailDoctor = true;
+            return {
+                ...newState
+            }
+        }
+
+        case actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS: {
+            let newState = { ...state };
+            newState.isLoadingSaveDetailDoctor = false;
+            return {
+                ...newState
+            }
+        };
+
+        case actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS: {
+            let newState = { ...state };
+            newState.isLoadingSaveDetailDoctor = false;
             return {
                 ...newState
             }

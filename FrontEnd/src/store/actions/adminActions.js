@@ -95,6 +95,34 @@ export const fetchPositionFailed = () => ({
     type: actionTypes.FETCH_POSITION_FAILED
 })
 
+
+export const fetchTimeSchedule = () => {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: actionTypes.FETCH_ALLCODE_SCHEDULE_HOURS_START })
+
+            let res = await getAllCodeService("TIME");
+            if (res && res.errCode === 0) {
+                dispatch(fetchTimeScheduleSuccess(res.data));
+            } else {
+                dispatch(fetchTimeScheduleFailed());
+            }
+        } catch (error) {
+            dispatch(fetchTimeScheduleFailed());
+            console.log("fetch time allCode scheduler ", error)
+        }
+    }
+}
+
+export const fetchTimeScheduleSuccess = (time_data) => ({
+    type: actionTypes.FETCH_ALLCODE_SCHEDULE_HOURS_SUCCESS,
+    data: time_data
+})
+
+export const fetchTimeScheduleFailed = () => ({
+    type: actionTypes.FETCH_ALLCODE_SCHEDULE_HOURS_FAILED
+})
+
 export const createNewUser = (data) => {
     return async (dispatch, getState) => {
         try {

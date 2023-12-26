@@ -4,6 +4,7 @@ const initialState = {
     genders: [],
     roles: [],
     positions: [],
+    scheduleTimes: [],
     users: [],
     top_doctors: [],
     all_doctors: [],
@@ -13,7 +14,9 @@ const initialState = {
     isLoadingUser: false,
     isLoadingTopDoctor: false,
     isLoaddingAllDoctor: false,
-    isLoadingSaveDetailDoctor: false
+    isLoadingSaveDetailDoctor: false,
+    isLoadingScheduleTime: false
+
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -121,8 +124,7 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...newState
             }
-        }
-
+        };
         case actionTypes.FETCH_TOP_DOCTOR_SUCCESS: {
             let newState = { ...state };
             newState.top_doctors = action.data;
@@ -131,7 +133,6 @@ const adminReducer = (state = initialState, action) => {
                 ...newState
             }
         };
-
         case actionTypes.FETCH_TOP_DOCTOR_FAILED: {
             let newState = { ...state };
             newState.isLoadingTopDoctor = false;
@@ -141,15 +142,13 @@ const adminReducer = (state = initialState, action) => {
         };
 
 
-
         case actionTypes.FETCH_ALL_DOCTOR_START: {
             let newState = { ...state };
             newState.isLoaddingAllDoctor = true;
             return {
                 ...newState
             }
-        }
-
+        };
         case actionTypes.FETCH_ALL_DOCTOR_SUCCESS: {
             let newState = { ...state };
             newState.all_doctors = action.data;
@@ -158,7 +157,6 @@ const adminReducer = (state = initialState, action) => {
                 ...newState
             }
         };
-
         case actionTypes.FETCH_ALL_DOCTOR_FAILED: {
             let newState = { ...state };
             newState.isLoaddingAllDoctor = false;
@@ -174,8 +172,14 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...newState
             }
-        }
-
+        };
+        case actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS: {
+            let newState = { ...state };
+            newState.isLoadingSaveDetailDoctor = false;
+            return {
+                ...newState
+            }
+        };
         case actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS: {
             let newState = { ...state };
             newState.isLoadingSaveDetailDoctor = false;
@@ -184,14 +188,29 @@ const adminReducer = (state = initialState, action) => {
             }
         };
 
-        case actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS: {
+        case actionTypes.FETCH_ALLCODE_SCHEDULE_HOURS_START: {
             let newState = { ...state };
-            newState.isLoadingSaveDetailDoctor = false;
+            newState.isLoadingScheduleTime = true;
             return {
-                ...newState
+                ...newState,
             }
         };
-
+        case actionTypes.FETCH_ALLCODE_SCHEDULE_HOURS_SUCCESS: {
+            let newState = { ...state };
+            newState.scheduleTimes = action.data;
+            newState.isLoadingScheduleTime = false;
+            return {
+                ...newState,
+            }
+        };
+        case actionTypes.FETCH_ALLCODE_SCHEDULE_HOURS_FAILED: {
+            let newState = { ...state };
+            newState.isLoadingScheduleTime = false;
+            newState.scheduleTimes = [];
+            return {
+                ...newState,
+            }
+        };
 
         default:
             return state;

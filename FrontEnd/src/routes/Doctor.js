@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from 'react-router-dom';
-import ManageScheduler from '../containers/Doctor/ManageScheduler';
+import ManageScheduler from '../containers/System/Doctor/ManageScheduler';
 import Header from '../containers/Header/Header';
 class Doctor extends Component {
     render() {

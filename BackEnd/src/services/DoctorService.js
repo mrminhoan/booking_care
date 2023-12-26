@@ -1,4 +1,7 @@
 const db = require("../models/index");
+require('dotenv').config();
+const _ = require('lodash')
+const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 
 let getTopDoctorHome = (limit) => {
     return new Promise(async (resole, reject) => {
@@ -134,10 +137,85 @@ let getDetailDoctorById = (id) => {
     })
 }
 
+let bulkCreateSchedule = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.arrSchedule || !data.doctorId || !data.dateFormatted) {
+                resolve({
+                    errCode: -1,
+                    errMessage: 'Missing required param!'
+                })
+            } else {
+                let schedule = data.arrSchedule
+                schedule = schedule.map(item => {
+                    item.maxNumber = MAX_NUMBER_SCHEDULE;
+                    return item;
+                })
 
+                let existing = await db.Schedule.findAll({
+                    where: { doctorId: data.doctorId, date: data.dateFormatted },
+                    attributes: ['timeType', 'date', 'doctorId', 'maxNumber'],
+                    raw: true
+                });
+
+                if (existing && existing.length > 0) {
+                    existing = existing.map(item => {
+                        item.date = new Date(item.date).getTime();
+                        return item;
+                    })
+                }
+
+                let toCreate = _.differenceWith(schedule, existing, (a, b) => {
+                    return a.timeType === b.timeType && a.date === b.date;
+                });
+                if (toCreate && toCreate.length > 0) {
+                    await db.Schedule.bulkCreate(toCreate);
+                }
+                resolve({
+                    errCode: 0,
+                    errMessage: "Success"
+                });
+
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+let getScheduleDoctorByDate = (doctorId, date) => {
+    return new Promise(async (resole, reject) => {
+        try {
+            if (!doctorId || !date) {
+                resole({
+                    errCode: 1,
+                    errMessage: 'Missing require parameters'
+                })
+            } else {
+                let data = await db.Schedule.findAll({
+                    where: {
+                        doctorId: doctorId,
+                        date: date
+                    },
+                    raw: false
+                })
+
+                if (!data) data = [];
+
+                resole({
+                    data,
+                    errCode: 0,
+                })
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
 module.exports = {
     getTopDoctorHome,
     getAllDoctors,
     saveDetailInforDoctor,
-    getDetailDoctorById
+    getDetailDoctorById,
+    bulkCreateSchedule,
+    getScheduleDoctorByDate
 }

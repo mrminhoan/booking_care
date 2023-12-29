@@ -323,3 +323,42 @@ export const saveDetailDoctorSuccess = (data) => ({
 export const saveDetailDoctorFailed = () => ({
     type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED
 })
+
+
+export const getRequireDoctorInfor = () => {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: actionTypes.FETCH_REQUIRE_DOCTOR_INFOR_START })
+
+            let resPrice = await getAllCodeService("PRICE");
+            let resPayment = await getAllCodeService("PAYMENT");
+            let resProvince = await getAllCodeService("PROVINCE");
+
+            if (resPrice && resPrice.errCode === 0 &&
+                resPayment && resPayment.errCode === 0 &&
+                resProvince && resProvince.errCode === 0
+            ) {
+                let data = {
+                    resPrice: resPrice.data,
+                    resPayment: resPayment.data,
+                    resProvince: resProvince.data
+                }
+                dispatch(getRequireDoctorInforSuccess(data));
+            } else {
+                dispatch(getRequireDoctorInforFailed());
+            }
+        } catch (error) {
+            dispatch(getRequireDoctorInforFailed());
+            console.log("fetchGender", error)
+        }
+    }
+}
+
+export const getRequireDoctorInforSuccess = (data) => ({
+    type: actionTypes.FETCH_REQUIRE_DOCTOR_INFOR_SUCCESS,
+    data: data
+})
+
+export const getRequireDoctorInforFailed = () => ({
+    type: actionTypes.FETCH_REQUIRE_DOCTOR_INFOR_FAILED
+})

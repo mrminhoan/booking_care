@@ -8,15 +8,17 @@ const initialState = {
     users: [],
     top_doctors: [],
     all_doctors: [],
+    all_required_doctor_infor: {},
+
     isLoadingGender: false,
     isLoadingRole: false,
     isLoadingPosition: false,
     isLoadingUser: false,
     isLoadingTopDoctor: false,
-    isLoaddingAllDoctor: false,
+    isLoadingAllDoctor: false,
     isLoadingSaveDetailDoctor: false,
-    isLoadingScheduleTime: false
-
+    isLoadingScheduleTime: false,
+    isLoadingRequiredDoctorInfor: false
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -144,7 +146,7 @@ const adminReducer = (state = initialState, action) => {
 
         case actionTypes.FETCH_ALL_DOCTOR_START: {
             let newState = { ...state };
-            newState.isLoaddingAllDoctor = true;
+            newState.isLoadingAllDoctor = true;
             return {
                 ...newState
             }
@@ -152,14 +154,14 @@ const adminReducer = (state = initialState, action) => {
         case actionTypes.FETCH_ALL_DOCTOR_SUCCESS: {
             let newState = { ...state };
             newState.all_doctors = action.data;
-            newState.isLoaddingAllDoctor = false;
+            newState.isLoadingAllDoctor = false;
             return {
                 ...newState
             }
         };
         case actionTypes.FETCH_ALL_DOCTOR_FAILED: {
             let newState = { ...state };
-            newState.isLoaddingAllDoctor = false;
+            newState.isLoadingAllDoctor = false;
             return {
                 ...newState
             }
@@ -207,6 +209,33 @@ const adminReducer = (state = initialState, action) => {
             let newState = { ...state };
             newState.isLoadingScheduleTime = false;
             newState.scheduleTimes = [];
+            return {
+                ...newState,
+            }
+        };
+
+
+
+        case actionTypes.FETCH_REQUIRE_DOCTOR_INFOR_START: {
+            let newState = { ...state };
+            newState.isLoadingRequiredDoctorInfor = true;
+            return {
+                ...newState,
+            }
+        };
+        case actionTypes.FETCH_REQUIRE_DOCTOR_INFOR_SUCCESS: {
+            let newState = { ...state };
+            newState.all_required_doctor_infor = action.data;
+            newState.isLoadingRequiredDoctorInfor = false;
+            console.log(action.data)
+            return {
+                ...newState,
+            }
+        };
+        case actionTypes.FETCH_REQUIRE_DOCTOR_INFOR_FAILED: {
+            let newState = { ...state };
+            newState.isLoadingRequiredDoctorInfor = false;
+            newState.all_required_doctor_infor = {};
             return {
                 ...newState,
             }

@@ -88,6 +88,19 @@
             "show-detail": "Show detail",
             "payment": "Patients can pay costs in method: ",
             "hide-price": "Hide detail"
+        },
+        "booking-modal": {
+            "title": "Information to book an appointment",
+            "fullname": "Full name",
+            "phonenumber": "Phone number",
+            "email": "Email",
+            "address": "Address",
+            "reason": "Reason",
+            "birthday": "Date of birth",
+            "gender": "Gender",
+            "btn-confirm": "Confirm",
+            "btn-cancel": "Cancel",
+            "price": "Price: "
         }
     },
     "admin": {

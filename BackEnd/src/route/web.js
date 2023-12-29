@@ -2,6 +2,9 @@ const express = require("express")
 const homeController = require("../controllers/homeController");
 const userController = require("../controllers/userController");
 const doctorController = require("../controllers/doctorController");
+const patientController = require("../controllers/patientController");
+
+
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -32,6 +35,8 @@ let initWebRoutes = (app) => {
     router.get('/api/get-schedule-doctor-by-date', doctorController.getScheduleDoctorByDate)
     router.get('/api/get-extra-doctor-by-id', doctorController.getExtraInforDoctorById)
     router.get('/api/profile-doctor-by-id', doctorController.getProfileDoctorById)
+
+    router.post('/api/patient-book-appointment', patientController.postBookAppointment);
 
     return app.use("/", router);
 }

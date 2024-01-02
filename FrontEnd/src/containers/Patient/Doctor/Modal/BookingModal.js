@@ -5,6 +5,10 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import _ from 'lodash';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
+import moment from 'moment';
+import NumberFormat from 'react-number-format';
+import localization from 'moment/locale/vi';
+
 
 import "./BookingModal.scss";
 import ProfileDoctor from '../ProfileDoctor';
@@ -96,6 +100,8 @@ class BookingModal extends Component {
 
     handleConfirmBooking = async () => {
         let date = new Date(this.state.birthday).getTime();
+        let timeString = this.buildTimeBooking(this.props.dataTime);
+        let doctorName = this.buildDoctorName(this.props.dataTime);
         let obj = {
             fullName: this.state.fullName,
             phoneNumber: this.state.phoneNumber,
@@ -105,7 +111,10 @@ class BookingModal extends Component {
             date: date,
             selectedGender: this.state.selectedGender.value,
             doctorId: this.state.doctorId,
-            timeType: this.state.timeType
+            timeType: this.state.timeType,
+            language: this.props.language,
+            timeString: timeString,
+            doctorName: doctorName
         }
         let res = await postPatientBookAppointment(obj);
         if (res && res.errCode === 0) {
@@ -113,7 +122,36 @@ class BookingModal extends Component {
             this.props.closeBookingModal();
         } else {
             toast.error("Booking appointment failed");
-            // this.props.closeBookingModal();
+        }
+    }
+
+    buildTimeBooking = (dataTime) => {
+        let { language } = this.props;
+        if (dataTime && !_.isEmpty(dataTime)) {
+            let time = language === LANGUAGES.VI ?
+                dataTime.timeTypeData.valueVi : dataTime.timeTypeData.valueEn;
+
+            let date = language === LANGUAGES.VI ?
+                moment.unix(+dataTime.date / 1000).format('dddd- DD/MM/YYYY')
+                :
+                moment.unix(+dataTime.date / 1000).locale('en').format('ddd - MM/DD/YYYY')
+
+
+            return `${time} - ${date}`
+        }
+        return <></>
+    }
+
+    buildDoctorName = (dataTime) => {
+        try {
+            if (dataTime && !_.isEmpty(dataTime)) {
+                let name = `${dataTime.doctorData.firstName} ${dataTime.doctorData.lastName}`;
+                return name;
+            }
+            return <></>
+        } catch (error) {
+            console.log(error)
+            return <></>
         }
     }
 
